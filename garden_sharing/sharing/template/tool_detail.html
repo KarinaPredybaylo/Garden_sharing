@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+
+{% block content %}
+    <div class='hero' style="background-image:
+    url('https://images.pexels.com/photos/6843669/pexels-photo-6843669.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+    position: absolute;align-content: center; background-attachment: scroll; height: auto">
+        <div style="background-color: #eeeeee;position:relative;width: 70%; height: 70%; margin-top: 200px;margin-left: 15%;border-radius: inherit">
+                <div class="container_p" style="overflow:hidden; height: 100%; white-space:nowrap">
+                    <div class="container_image" style=" width: 40%; display:block;float:left">
+                        <img class="card-img-top" src='{{tool.photo.url}}' alt="" style="width: 100%;height: auto;">
+                    </div>
+                    <div class="container_o" style="font-family: Courier,monospace; width: 55%;float:left;height:100%; white-space:normal; margin: 10px">
+                        <div class="info" style="width: 100%; text-align: center;height: 20%">
+                            <h1>{{ tool.name }}</h1>
+                        </div>
+
+                        <div class="details" style="width: 100%;height: 70%">
+                            <h6 style=" margin-left: 10px;">{{ tool.common_details }}</h6>
+                        <form action="/#{{thing.id}}" method="POST" class="btn-block">
+							{% csrf_token %}
+							<input hidden type="text" name='tool' value='{{tool.id}}'>
+							<input type="submit" class="float-right btn btn-dark form-control"
+								value="Request" style="background: #33725a;width: 50%">
+						</form></div>
+
+
+                    </div>
+
+                </div>
+        </div>
+    </div>
+{% endblock %}

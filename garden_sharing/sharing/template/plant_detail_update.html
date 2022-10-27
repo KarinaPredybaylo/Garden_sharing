@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+
+{% block content %}
+            <div class='hero' style="background-image: url('https://images.pexels.com/photos/6843669/pexels-photo-6843669.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');position: absolute;
+align-content: center; background-attachment: scroll; height: auto">
+    <div style="background-color: #eeeeee;position:relative;width: 60%; margin-top: 200px;margin-left: 20%;border-radius: inherit">
+{#            <div class="card-body">#}
+            <form method="POST" style="width: 100%;" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                    <div style="display:block; float:left; border:1px solid black;margin: 7px;margin-left: 5%;"><h1 style="font: small-caps bold 24px/1 sans-serif;text-align: center">Plants</h1>
+                       {{ care_form.management_form }}
+                                {{ care_form|crispy }}
+
+                               </div>
+            </form>
+    </div></div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class='hero' style="background-image: url('https://design-homes.ru/images/galery/2274/vyushchiesya-komnatnye-rasteniya_5eea219ca8fae.jpg');position: absolute;
+align-content: center">
+   <div style="background-color: #a5c4b9;position:relative;width: 50%; margin-top: 95px;margin-left: 25%;height: 90%">
+
+  	<div class="media" style="text-align: center;justify-content: center">
+    	<img class="rounded-circle account-img" style="width: 18%;margin-left: 5%" alt="" src="{{ user.profile.photo.url }}">
+    	<div class="media-body">
+      	<h2 class="account-heading" style="font-size: 10mm">{{ user.username }}</h2>
+    	</div>
+  	</div>
+  <form method="POST" enctype="multipart/form-data" style="margin-left: 5%; width: 90%;height: auto">
+      	{% csrf_token %}
+      	<fieldset class="form-group">
+          	<legend class="border-bottom mb-4">Edit information</legend>
+          	{{ u_form|crispy }}
+              {{ p_form|crispy }}
+      	</fieldset>
+      	<div class="form-group" style="text-align: center">
+          	<button class="btn btn-outline-dark" type="submit">Update</button>
+      	</div>
+  	</form>
+    </div>
+    </div>
+{% endblock content %}

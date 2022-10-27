@@ -131,3 +131,4 @@ dmypy.json
 
 # IDE section
 .idea/
+sharing/migrations

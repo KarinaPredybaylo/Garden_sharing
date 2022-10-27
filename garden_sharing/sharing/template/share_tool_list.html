@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+
+{% block content %}
+
+<div class='hero' style="background-image: url('https://images.pexels.com/photos/6843669/pexels-photo-6843669.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+    position: absolute; align-content: center; background-attachment: scroll;height: auto;">
+        <div class="list" id="featured-3" style="width: auto; margin-top: 100px; margin-left: 5%;display: flex;
+        flex-wrap: wrap; ">
+            <div class="col-lg-9 mx-auto">
+			    <div class="row mx-auto" style="margin-top: 90px">
+{#            <div class="row g-4 py-5 row-cols-1 row-cols-lg-3" style="width:80%;display: flex; flex-wrap: wrap; position:relative;">#}
+                 {% for thing in things %}
+                      <div class="card mx-auto mb-3" style=" width: 15rem;">
+                          <img class="card-img-top" src='{{thing.photo.url}}'  alt=''>
+                          <div class="card-body" style="font-size: 1.3rem;text-align: center;height: auto">
+                            <a href="{% url 'tool_detail' thing.id%}" style="color: black">{{ thing.name}}
+                              {#                   <a href="/thing/{{ thing.id }}">#}</a></div>
+
+        {#                  </a>#}
+        {#              <a href="{% url 'detail_thing' thing.id %}" class="btn btn-warning" style="color: black">#}
+        {#          Продолжить читать#}
+        {#        </a>#}
+                      <div class="card-footer p-0 no-gutters">
+
+{#						{% if product|is_in_cart:request.session.cart %}#}
+{#						<div class="row no-gutters">#}
+{#							<form action="/#{{product.id}}" class="col-2 " method="post">#}
+{#								{% csrf_token %}#}
+{#								<input hidden type="text" name='product' value='{{product.id}}'>#}
+{#								<input hidden type="text" name='remove' value='True'>#}
+{#								<input type="submit" value=" - " class="btn btn-block btn-success border-right">#}
+{#							</form>#}
+{#							<div class="text-center col btn btn-success">{{product|cart_quantity:request.session.cart}} in Cart</div>#}
+{#							<form action="/#{{product.id}}" class="col-2 " method="post">#}
+{#								{% csrf_token %}#}
+{#								<input hidden type="text" name='product' value='{{product.id}}'>#}
+{#								<input type="submit" value=" + " class="btn btn-block btn-success border-left">#}
+{#							</form>#}
+{#						</div>#}
+{#						{% else %}#}
+						<form action="/#{{thing.id}}" method="POST" class="btn-block">
+							{% csrf_token %}
+                            <label>
+                                <input hidden type="text" name='thing' value='{{thing.id}}'>
+                            </label>
+                            <input type="submit" class="float-right btn btn-dark form-control"
+								value="Request" style="background: #33725a">
+						</form>
+{#						{% endif %}#}
+
+					</div>
+                      </div>
+                 {% endfor %}
+                </div></div>
+        </div></div>
+{% endblock %}

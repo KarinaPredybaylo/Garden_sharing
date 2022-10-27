@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+
+{% block content %}
+        <div class='hero' style="background-image: url('https://design-homes.ru/images/galery/2274/vyushchiesya-komnatnye-rasteniya_5eea219ca8fae.jpg');position: absolute;
+align-content: center">
+    <div style="background-color: #a5c4b9;position:relative;width: 40%;font-family: Courier,monospace; margin-top: 200px;margin-left: 30%;border-radius: inherit">
+<div class="card-body">
+    <div><p style="color: black">Dear user, you can view the catalog of available
+        <a href="{% url 'plants_list' %}">plants</a> or <a href="{% url 'plants_list' %}">tools</a>
+        or request products, that are not in the catalog using the form below</p></div>
+                <form action="{% url 'request_detail' %}" method="POST" enctype="multipart/form-data" style="margin-top: 20px;">
+                    {% csrf_token %}
+                    <label for="request">Enter the number of things you want to request
+                        <input type="number" name="request" id="request" class="form-control" style=" width: 50%">
+                    </label>
+                    <button
+                            type="submit"
+                            class="btn btn-primary"
+                            style="width: 24rem;" >Continue
+                    </button>
+                </form>
+            </div>
+        </div>
+        </div>
+{% endblock %}

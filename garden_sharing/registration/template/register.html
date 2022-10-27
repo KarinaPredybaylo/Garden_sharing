@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class='hero' style="background-image: url('https://infopro54.ru/wp-content/uploads/2022/02/cveti.jpg');position: absolute;
+align-content: center">
+<div style="background-color: #a5c4b9;position:relative;width: 70%; margin-top: 200px;margin-left: 15%;border-radius: inherit">
+
+        <form method="POST" enctype="multipart/form-data" style="margin-left: 5%; width: 90%">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                                <legend class="border-bottom mb-4">CREATE NEW ACCOUNT</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" style="color: #0c5460" type="submit">CREATE AN ACCOUNT</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+
+<div class="create" style="position: relative;width: 50%;text-align: center">
+            <div class="primary" style="text-align: center">
+                <a href="{% url 'login' %}" class="action create primary"><span style="color: #203d32">
+I already have an account</span></a>
+
+        </div></div>
+   </div>
+</div>
+{#        <div class="content-section" style="margin-top: 5rem">#}
+{#        <form method="post" enctype="multipart/form-data" style="margin-left: 15%;width: 500px;margin-top: 50px">#}
+{#            {% csrf_token %}#}
+{#            <fieldset class="form-group">#}
+{#                {{ form|crispy }}#}
+{#            </fieldset>#}
+{#            <div class="form-group">#}
+{#                <button class="btn btn-outline-info" type="submit">Регистрация</button>#}
+{#            </div>#}
+{#        </form>#}
+{#        <div class="border-top pt-3">#}
+{#            <small class="text-muted">#}
+{#                Уже есть аккаунт? <a class="ml-2" href="#">Вход</a>#}
+{#            </small>#}
+{#        </div>#}
+    </div>
+{% endblock content %}
