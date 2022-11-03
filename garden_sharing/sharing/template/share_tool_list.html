@@ -40,14 +40,10 @@
 {#							</form>#}
 {#						</div>#}
 {#						{% else %}#}
-						<form action="/#{{thing.id}}" method="POST" class="btn-block">
-							{% csrf_token %}
-                            <label>
-                                <input hidden type="text" name='thing' value='{{thing.id}}'>
-                            </label>
-                            <input type="submit" class="float-right btn btn-dark form-control"
-								value="Request" style="background: #33725a">
-						</form>
+						 <div class="card-footer p-0 no-gutters">
+                              <a href="{% url 'cart_add' thing.id %}">Add To Cart</a>
+
+					</div>
 {#						{% endif %}#}
 
 					</div>

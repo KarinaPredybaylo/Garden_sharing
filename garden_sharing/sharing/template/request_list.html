@@ -8,7 +8,7 @@ align-content: center; background-attachment: scroll; height: auto">
         <div style="background-color: #eeeeee;position:relative;width: 60%; margin-top: 200px;margin-left: 20%;border-radius: inherit">
             <div style="width:85%;display:block; float:left; border:1px solid black;margin: 7px; ">
                 {% for thing in request_list %}
-                    <h5  style="font-family: Courier,monospace; color: black"> {{ thing.name}} - {{ thing.amount }} pcs</h5>
+                    <h5  style="font-family: Courier,monospace; color: black"> {{ thing.name}} - {{ thing.total }} pcs</h5>
                 {% endfor %}
             </div>
         </div>

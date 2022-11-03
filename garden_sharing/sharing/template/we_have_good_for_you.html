@@ -1,0 +1,8 @@
+{% autoescape off %}
+Hello {{ user.get_username }}, we have a product for which you left a request:
+    {%  for thing in things %}
+        {{ thing.name }}
+    {% endfor %}
+Please follow the link to complete registration:
+    http://{{ domain }}{% url 'home' %}
+{% endautoescape %}

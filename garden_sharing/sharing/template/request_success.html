@@ -4,8 +4,24 @@
 {% block content %}
     <div class='hero' style="background-image: url('https://design-homes.ru/images/galery/2274/vyushchiesya-komnatnye-rasteniya_5eea219ca8fae.jpg');position: absolute;
 align-content: center">
-    <div style="background-color: #a5c4b9;position:relative;width: 70%; margin-top: 90px;margin-left: 15%;border-radius: inherit">
-    <h5 style="text-align: center; margin-top: 20px;">Thank you for your request № {{request_id.id}}</h5>
+    <div style="background-color: #a5c4b9;position:relative;width: 70%; margin-top: 250px;margin-left: 15%;border-radius: inherit;font-family: Courier,monospace; ">
+        {% for item in goods %}
+             <h5 style="text-align: center; margin-top: 20px;">
+    Goods available for order:
+            <div><ul><li>
+        {{ item.name }} - <a href="{% url 'cart_add' item.id %}" style="width: 25%">Add To Cart</a>
+
+				</li></ul>	</div>
+            {% endfor %}
+        </h5>
+    <h5>
+    Request No. {{request_id.id}}  has been generated for these products:
+         {% for item in new_things %}
+             <div>
+             <ul>
+      <li> {{ item.name }}</li>
+       </ul> </div>{% endfor %}
+    </h5>
     <p style="text-align: center; margin-top: 20px;">
     <a href="/sharing/">Return main</a>
     </p>

@@ -111,11 +111,11 @@ ENV/
 env.bak/
 venv.bak/
 
-# Spyder project settings
+# Spyder garden_sharing settings
 .spyderproject
 .spyproject
 
-# Rope project settings
+# Rope garden_sharing settings
 .ropeproject
 
 # mkdocs documentation
@@ -132,3 +132,4 @@ dmypy.json
 # IDE section
 .idea/
 sharing/migrations
+media

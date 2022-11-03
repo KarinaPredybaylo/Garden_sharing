@@ -1,5 +1,5 @@
 from django import forms
-from .models import Warehouse, SharingTool, SharingPlant, CarePlant, Share, RequestThing
+from .models import Warehouse, Tool, Plant, CarePlant, Share, Thing, RequestThing, Request
 from django.forms import formset_factory, BaseInlineFormSet, inlineformset_factory
 
 
@@ -16,8 +16,8 @@ class CarePlantForm(forms.ModelForm):
 
 class ToolsUpdateForm(forms.ModelForm):
     class Meta:
-        model = SharingTool
-        fields = '__all__'
+        model = Tool
+        exclude = ('id',)
 
 
 class RequestThingForm(forms.ModelForm):
@@ -26,9 +26,18 @@ class RequestThingForm(forms.ModelForm):
         fields = ('name', 'amount')
 
 
+class RequestThingUpdateForm(forms.ModelForm):
+    name = forms.CharField(disabled=True)
+    amount = forms.CharField(disabled=True)
+
+    class Meta:
+        model = RequestThing
+        exclude = ('id', 'warehouse_id', 'status')
+
+
 class ShareToolForm(forms.ModelForm):
     class Meta:
-        model = SharingTool
+        model = Tool
         fields = ('name', 'amount', 'common_details', 'photo')
 
 
@@ -37,7 +46,7 @@ SharingToolFormSet = formset_factory(ShareToolForm)
 
 class SharePlantsForm(forms.ModelForm):
     class Meta:
-        model = SharingPlant
+        model = Plant
         fields = ('name', 'amount', 'common_details', 'photo')
 
 
@@ -50,8 +59,8 @@ class SharingToolsUpdateForm(forms.ModelForm):
     photo = forms.ImageField(disabled=True)
 
     class Meta:
-        model = SharingTool
-        exclude = ('warehouse_id', 'status', 'ready_for_save')
+        model = Tool
+        exclude = ('warehouse_id', 'status', 'ready_for_save', 'request_id')
 
 
 class SharingPlantsUpdateForm(forms.ModelForm):
@@ -60,8 +69,8 @@ class SharingPlantsUpdateForm(forms.ModelForm):
     photo = forms.ImageField(disabled=True)
 
     class Meta:
-        model = SharingPlant
-        exclude = ('warehouse_id', 'status', 'ready_for_save',)
+        model = Plant
+        exclude = ('warehouse_id', 'status', 'ready_for_save', 'request_id')
 
 
 class BasePlantsFormset(BaseInlineFormSet):
@@ -98,9 +107,18 @@ class BasePlantsFormset(BaseInlineFormSet):
         return result
 
 
-ToolsFormSet = inlineformset_factory(Share, SharingTool, form=SharingToolsUpdateForm, extra=0, can_delete=False)
+class RequestUpdateForm(forms.ModelForm):
 
-PlantsFormSet = inlineformset_factory(Share, SharingPlant, form=SharingPlantsUpdateForm, formset=BasePlantsFormset,
+    class Meta:
+        model = Request
+        exclude=('id',)
+
+
+RequestThingFormSet = inlineformset_factory(Request, RequestThing, form=RequestThingUpdateForm, can_delete=False, extra=0)
+
+ToolsFormSet = inlineformset_factory(Share, Tool, form=SharingToolsUpdateForm, extra=0, can_delete=False)
+
+PlantsFormSet = inlineformset_factory(Share, Plant, form=SharingPlantsUpdateForm, formset=BasePlantsFormset,
                                       can_delete=False, extra=0)
 
-CareFormSet = inlineformset_factory(SharingPlant, CarePlant, form=CarePlantForm, extra=0, can_delete=False)
+CareFormSet = inlineformset_factory(Plant, CarePlant, form=CarePlantForm, extra=0, can_delete=False)

@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% block content %}
+    <div class='hero' style="background-image: url('https://images.pexels.com/photos/6843669/pexels-photo-6843669.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');position: absolute;
+align-content: center; background-attachment: scroll;">
+        <div style="position:relative;width: 80%; margin-top: 200px;margin-left: 10%;border-radius: inherit">
+        <div class="row d-flex justify-content-center">
+            <div class="col-5">
+                <label for="exampleFormControlTextarea1" class="h4 pt-5">GardenLiveChat</label>
+                <form>
+                    <div class="form-group">
+<textarea class="form-control" id="chat-log" readonly rows="10" style="">{% for message in messages %}{% if message.sender_user == user %}
+{{ message.sender_user.username }} : {{ message.message }}{% else %}
+{{ message.sender_user.username }} : {{ message.message }}{% endif %}{% endfor %}
+</textarea>
+            </div>
+                    <div class="form-group" style="width: 50%">
+                        <input id="chat-message-input" type="text"  size="67">&nbsp;
+                        <input class="btn btn-primary btn-lg btn-block" id="chat-message-submit" type="button" value="Send" style="margin-left: 45%"></div></form></div></div>
+
+        </div>>
+        </div>
+    {{ room_name|json_script:"room-name" }}
+
+    <script>
+        const sender = '{{ sender_id }}';
+        const sender_name = '{{ sender_name }}';
+        const receiver = '{{ receiver_id }}';
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/chat/'
+            + roomName
+            + '/'
+        );
+
+        chatSocket.onmessage = function(e) {
+            // JSON.parse() converts the JSON object back into the original object,
+            const data = JSON.parse(e.data);
+            document.querySelector('#chat-log').value += ( data.sender_name  + ': ' + data.message + '\n');
+        }
+
+
+        chatSocket.onclose = function(e) {
+            console.log('Error',e)
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+
+        }
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
+
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'sender':sender,
+                'receiver':receiver,
+                'sender_name':sender_name,
+            }));
+
+            // Blank the text input element, ready to receive the next line of text from the user.
+            messageInputDom.value = '';
+        }
+
+
+    </script>
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
+    </script>
+{% endblock %}

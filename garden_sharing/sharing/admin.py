@@ -1,13 +1,13 @@
 from django.contrib import admin
-from .models import SharingPlant, SharingTool, \
-    Share, Request, RequestThing, TypePlant, Warehouse, CarePlant, ShareThing
+from .models import Plant, Tool, \
+    Share, Request, TypePlant, Warehouse, CarePlant, Thing, RequestThing
 
 
-@admin.register(SharingPlant)
+@admin.register(Plant)
 class SharingPlantAdmin(admin.ModelAdmin):
-    list_display = ('name', 'status', 'amount', 'common_details',
+    list_display = ('name', 'amount', 'common_details',
                     'warehouse_id', 'ready_for_save',)
-    list_filter = ('status', 'type_id',)
+    list_filter = ('type_id',)
 
     def type_plant_name(self, obj):
         return obj.type_id.name
@@ -31,20 +31,20 @@ class SharingPlantAdmin(admin.ModelAdmin):
     type_plant_name.admin_order_field = 'type_id__name'
 
 
-class InlineSharePlant(admin.StackedInline):
-    model = SharingPlant
+class InlinePlant(admin.StackedInline):
+    model = Plant
     extra = 0
 
-
-class InlineRequestThing(admin.StackedInline):
+#
+class InlineThing(admin.StackedInline):
     model = RequestThing
     extra = 0
 
 
-@admin.register(SharingTool)
+@admin.register(Tool)
 class SharingToolAdmin(admin.ModelAdmin):
-    list_display = ('name', 'status', 'amount', 'common_details', 'warehouse_id', 'photo', 'ready_for_save')
-    list_filter = ('status',)
+    list_display = ('name', 'amount', 'common_details', 'warehouse_id', 'photo', 'ready_for_save')
+
 
     def share_date(self, obj):
         return obj.share_id.date
@@ -52,7 +52,7 @@ class SharingToolAdmin(admin.ModelAdmin):
     search_fields = ('name__startswith',)
     fieldsets = (
         ('Common_info', {
-            'fields': ('name', 'status', 'amount')
+            'fields': ('name','amount')
         }),
         ('Details', {
             'fields': ('common_details', 'warehouse_id', 'photo')
@@ -61,14 +61,14 @@ class SharingToolAdmin(admin.ModelAdmin):
     share_date.admin_order_field = 'share_id__date'
 
 
-class InlineShareTool(admin.StackedInline):
-    model = SharingTool
+class InlineTool(admin.StackedInline):
+    model = Tool
     extra = 0 # amount od extra forms
 
 
 @admin.register(RequestThing)
 class RequestThingAdmin(admin.ModelAdmin):
-    list_display = ('name', 'status', 'amount', 'warehouse_name', 'request_date')
+    list_display = ('name', 'status', 'amount', 'warehouse_name')
     list_filter = ('status', )
 
     def warehouse_name(self, obj):
@@ -83,7 +83,7 @@ class RequestThingAdmin(admin.ModelAdmin):
 @admin.register(TypePlant)
 class PlantTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'category', 'description')
-    inlines = [InlineSharePlant, ]
+    inlines = [InlinePlant, ]
     fieldsets = (
         (None, {
             'fields': ['name']
@@ -97,19 +97,14 @@ class PlantTypeAdmin(admin.ModelAdmin):
 @admin.register(Share)
 class ShareAdmin(admin.ModelAdmin):
     list_display = ('id', 'date', 'plants_amount', 'thing_amount', 'user')
-    inlines = [InlineShareTool, InlineSharePlant, ]
+    inlines = [InlineTool, InlinePlant, ]
     date_hierarchy = 'date'
-
-
-@admin.register(ShareThing)
-class ShareAdmin(admin.ModelAdmin):
-    pass
 
 
 @admin.register(Request)
 class RequestAdmin(admin.ModelAdmin):
     list_display = ('id', 'date', 'thing_amount', 'user')
-    inlines = [InlineRequestThing, ]
+    inlines = [InlineThing, ]
     date_hierarchy = 'date'
 
 
@@ -117,7 +112,7 @@ class RequestAdmin(admin.ModelAdmin):
 class WarehouseAdmin(admin.ModelAdmin):
     list_display = ('name', 'thing_count', 'capacity', 'long', 'lat', 'free_place_amount')
 
-    inlines = [InlineShareTool, InlineSharePlant, InlineRequestThing, ]
+    inlines = [InlineThing, ]
 
 
 @admin.register(CarePlant)
