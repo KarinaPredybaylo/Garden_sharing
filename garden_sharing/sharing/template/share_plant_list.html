@@ -40,14 +40,8 @@
                           <div class="card-body" style="font-size: 1.3rem;text-align: center;height: auto">
                             <a href="{% url 'plant_detail' thing.id%}" style="color: black">{{ thing.name}}
                               {#                   <a href="/thing/{{ thing.id }}">#}</a></div>
-
-        {#                  </a>#}
-        {#              <a href="{% url 'detail_thing' thing.id %}" class="btn btn-warning" style="color: black">#}
-        {#          Продолжить читать#}
-        {#        </a>#}
                       <div class="card-footer p-0 no-gutters">
-                              <button data-product="{{thing.id}}" data-action="add" class="btn add-btn update-cart"
-                                style="background-color: #8c5d4f; color: white;">Add To Cart</button>
+                              <a href="{% url 'cart_add' thing.id %}">Add To Cart</a>
 
 					</div>
                       </div>

@@ -7,7 +7,10 @@ from django.contrib.auth.tokens import default_token_generator as \
 from django.utils.http import urlsafe_base64_decode
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, AuthenticationForm
 from django.contrib.auth import decorators, authenticate, login, get_user_model
-from .utils import send_email
+from .tasks import send_email
+import sharing.utils
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 
 User = get_user_model()
 
@@ -40,6 +43,7 @@ class EmailVerify(View):
 
 
 def register(request):
+    domain = sharing.utils.get_domain(request)
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
@@ -47,7 +51,12 @@ def register(request):
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password1')
             user = authenticate(email=email, password=password)
-            send_email(request, user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = token_generator.make_token(user)
+            name = form.cleaned_data.get('username')
+            print(name)
+            send_email.delay(domain, token, uid, name, email)
+
             return redirect('confirm_email')
     else:
         form = UserRegisterForm()

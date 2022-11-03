@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% block content %}
+    <div class='hero' style="background-image: url('https://images.pexels.com/photos/6843669/pexels-photo-6843669.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');position: absolute;
+align-content: center; background-attachment: scroll;">
+
+          <div class="p-4 p-md-5 mb-4 rounded text-bg-dark" style="background-color: #c2d0cb;width: 60%; margin-left: 20%;margin-top: 150px;">
+    <main class="px-3" style="width: 80%;margin-left: 10%;">
+    {% if not perms.chat.message_manage %}
+        <h5 class="display-4 fst-italic" style="font-family: Courier,monospace; text-align: center">please write to us if you have any questions, we will answer you as soon as possible</h5>
+        <form method="POST">
+    {% csrf_token %}
+            <button class="btn btn-outline-dark" type="submit" style="width: 32%;margin-left: 34%">Ok! Continue</button></form>
+    {% else %}
+    <form method="POST">
+    {% csrf_token %}
+
+    <select id="users" name="users">
+        {% for receiver in users %}
+        <option value="{{receiver.id}}">
+            <p>{{receiver.username  }}</p>
+        </option>
+        {% endfor %}
+    </select><br><br>
+        <button class="btn" type="submit">Chat</button>
+</form>
+    {% endif %}
+    </main> </div></div>
+
+{% endblock %}

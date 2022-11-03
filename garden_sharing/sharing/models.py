@@ -10,6 +10,10 @@ import registration.models
 
 
 class Share(models.Model):
+    class Meta:
+        permissions = (
+                       ("share_manage", "Can view and process users shares"),
+                       )
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True)
     plants_amount = models.IntegerField(default=0, null=True)
     thing_amount = models.IntegerField(default=0, null=True)
@@ -19,11 +23,24 @@ class Share(models.Model):
 
 
 class Request(models.Model):
+    class Meta:
+        permissions = (
+                       ("request_manage", "Can view and process users requests"),
+                       )
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True)
     user = models.ForeignKey(registration.models.User,
                              on_delete=models.CASCADE, default=19)
     thing_amount = models.IntegerField(default=0)
+    city = models.CharField(max_length=20, default='Minsk')
+    address = models.CharField(max_length=200, null=True)
+    phone = models.CharField(max_length=50, default='', blank=True, null=True)
     date = models.DateTimeField(default=timezone.now)
+
+    @property
+    def booked_items(self):
+        items = self.requestthing_set.filter(status='Booked')
+        print(items)
+        return items
 
 
 class Warehouse(models.Model):
@@ -44,11 +61,11 @@ class Warehouse(models.Model):
         return self.name
 
     def free_place_amount(self):
-        number_thing = self.sharething_set.filter(status='Available').aggregate(models.Sum('amount'))
-        if number_thing['amount__sum'] is None:
+        quantity_thing = self.sharething_set.aggregate(models.Sum('amount'))
+        if quantity_thing['amount__sum'] is None:
             return self.capacity
         else:
-            return self.capacity - number_thing['amount__sum']
+            return self.capacity - quantity_thing['amount__sum']
 
         # def occupied_place(self):
         #     self.objects.aggregate(common_number=)
@@ -67,6 +84,19 @@ class Thing(models.Model):
         return self.name
 
 
+class ShareThing(Thing):
+    share_id = models.ForeignKey(Share, on_delete=models.CASCADE, null=True)
+    ready_for_save = models.BooleanField(choices=((0, 'Not ready '), (1, 'Ready')), default=0)
+
+
+class RequestThing(Thing):
+    STATUS_CHOICE = [('Requested', 'Requested'),
+                     ('Shipped', 'Shipped'),
+                     ('Booked', 'Booked')]
+    status = models.CharField(max_length=100, choices=STATUS_CHOICE, default='Requested')
+    request_id = models.ForeignKey(Request, on_delete=models.CASCADE)
+
+
 class TypePlant(models.Model):
     name = models.CharField(max_length=30, blank=False)
     PLANTS_CATEGORY = [('Tree/Bush', 'Tree/Bush'),
@@ -79,22 +109,13 @@ class TypePlant(models.Model):
         return self.name
 
 
-class ShareThing(Thing):
-    STATUS_CHOICE = [('Available', 'Available'),
-                     ('Booked', 'Booked')]
-    status = models.CharField(max_length=100, choices=STATUS_CHOICE, default='Available')
-    share_id = models.ForeignKey(Share, on_delete=models.CASCADE, null=True)
-    ready_for_save = models.BooleanField(choices=((0, 'Not ready '), (1, 'Ready')), default=0)
+# class RequestThing(Thing):
+#     STATUS_CHOICE = [('Requested', 'Requested'),
+#                      ('Shipped', 'Shipped')]
+#     status = models.CharField(max_length=100, choices=STATUS_CHOICE, default='Requested')
 
 
-class RequestThing(Thing):
-    STATUS_CHOICE = [('Requested', 'Requested'),
-                     ('Shipped', 'Shipped')]
-    status = models.CharField(max_length=100, choices=STATUS_CHOICE, default='Requested')
-    request_id = models.ForeignKey(Request, on_delete=models.CASCADE)
-
-
-class SharingPlant(ShareThing):
+class Plant(ShareThing):
     common_details = models.CharField(max_length=200)
     photo = models.ImageField(upload_to='images', blank=True)
     video = models.FileField(upload_to='videos_uploaded', blank=True,
@@ -114,7 +135,8 @@ class SharingPlant(ShareThing):
 
 
 class CarePlant(models.Model):
-    lighting = models.CharField(max_length=10)
+    lighting = models.CharField(max_length=20)
+    # lightin = models.CharField(max_length=20)
     watering = models.CharField(max_length=20)
     transplant = models.CharField(max_length=40)
     temperature = models.CharField(max_length=20)
@@ -124,7 +146,7 @@ class CarePlant(models.Model):
                           ]
     growing_difficulty = models.CharField(max_length=100, choices=GROWING_DIFFICULTY,
                                           default='requires constant monitoring')
-    plant = models.OneToOneField(SharingPlant, on_delete=models.CASCADE, blank=True, null=True)
+    plant = models.OneToOneField(Plant, on_delete=models.CASCADE, blank=True, null=True)
 
 
 def create_care_description(sender, instance, created, **kwargs):
@@ -133,15 +155,15 @@ def create_care_description(sender, instance, created, **kwargs):
         instance.careplant.save()
 
 
-models.signals.post_save.connect(receiver=create_care_description, sender=SharingPlant)
+models.signals.post_save.connect(receiver=create_care_description, sender=Plant)
 
 
-class SharingTool(ShareThing):
+class Tool(ShareThing):
     common_details = models.CharField(max_length=200)
     photo = models.ImageField(upload_to='images', null=True)
 
 
-# @receiver(post_save, sender=SharingTool)
+# @receiver(post_save, sender=Tool)
 # def stocked_warehouse(sender, instance, **kwargs):
 #     actual_amount = sender.objects.filter(status='Available',
 #                                           warehouse_id=instance.warehouse_id).aggregate(models.Sum('amount'))
@@ -150,13 +172,13 @@ class SharingTool(ShareThing):
 #     instance.warehouse_id.save()
 
 
-# models.signals.post_save.connect(receiver=stocked_warehouse, sender=SharingTool)
-# models.signals.post_save.connect(receiver=stocked_warehouse, sender=SharingPlant)
+# models.signals.post_save.connect(receiver=stocked_warehouse, sender=Tool)
+# models.signals.post_save.connect(receiver=stocked_warehouse, sender=Plant)
 
 
-@receiver(post_save, sender=SharingPlant)
-@receiver(post_save, sender=SharingTool)
+@receiver(post_save, sender=Plant)
+@receiver(post_save, sender=Tool)
 def stocked_warehouse(sender, instance, **kwargs):
-    actual_amount = instance.warehouse_id.sharething_set.filter(status='Available').aggregate(models.Sum('amount'))
+    actual_amount = instance.warehouse_id.sharething_set.aggregate(models.Sum('amount'))
     instance.warehouse_id.thing_count = actual_amount['amount__sum']
     instance.warehouse_id.save()

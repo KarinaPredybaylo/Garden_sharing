@@ -1,4 +1,4 @@
-"""project URL Configuration
+"""garden_sharing URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -23,6 +23,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('sharing/', include('sharing.urls')),
     path('register/', include('registration.urls')),
+    path('chat/', include('chat.urls')),
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

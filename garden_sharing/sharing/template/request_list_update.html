@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+
+{% block content %}
+            <div class='hero' style="background-image: url('https://images.pexels.com/photos/6843669/pexels-photo-6843669.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');position: absolute;
+align-content: center; background-attachment: scroll; height: auto">
+    <div style="background-color: #eeeeee;position:relative;width: 60%; margin-top: 200px;margin-left: 20%;border-radius: inherit">
+{#            <div class="card-body">#}
+
+                <div class="container" style="overflow:hidden">
+                <div class="box" style="white-space:nowrap">
+                    <div style="width:85%;display:block; float:left; border:1px solid black;margin: 7px;margin-left: 5%;"><h1 style="font: small-caps bold 24px/1 sans-serif;text-align: center">
+orders awaiting processing</h1>
+                        {% for request in request_list %}
+              <a href="{% url 'request_update' request.id%}" style="color: black">
+                  <h1  style="font: italic small-caps bold 22px/2 cursive;"> {{ request.id }} - {{ request.date }}</h1></a>
+                        {% endfor %}
+                                            </div>
+
+            </div>
+    </div>
+    </div></div>
+{% endblock %}

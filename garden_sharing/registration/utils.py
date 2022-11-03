@@ -7,7 +7,7 @@ from django.contrib.auth.tokens import default_token_generator as \
  token_generator
 
 
-def send_email(request, user):
+def send_email(request, user, template='verify_email.html'):
     current_site = get_current_site(request)
     context = {
         'user': user,
@@ -16,12 +16,12 @@ def send_email(request, user):
         'token': token_generator.make_token(user),
     }
     message = render_to_string(
-        'verify_email.html',
+        template,
         context=context,
     )
-    from Plants_share.garden_sharing.project import settings
+    from Plants_share.garden_sharing.garden_sharing import settings
     email = EmailMessage(
-        'Veryfi email',
+        template,
         message,
         from_email=settings.EMAIL_HOST_USER,
         to=[user.email],
