@@ -131,6 +131,4 @@ dmypy.json
 
 # IDE section
 .idea/
-*/migrations/*
-!*/migrations/__init__.py
 media
