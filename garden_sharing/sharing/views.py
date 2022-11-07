@@ -110,7 +110,7 @@ def request_list(request):
 @permission_required('sharing.share_manage', raise_exception=True)
 def share_list(request):
     if request.method == 'GET':
-        share_objects = Share.objects.filter(sharething__ready_for_save=0).order_by('date')
+        share_objects = Share.objects.filter(sharething__ready_for_save=0).order_by('date').distinct()
         context = {'share_list': share_objects}
         return render(request, 'share_list_update.html', context)
 
@@ -123,9 +123,19 @@ def share_update(request, pk):
         p_form = PlantsFormSet(request.POST, request.FILES, instance=share_id, prefix='plants')
         t_form = ToolsFormSet(request.POST, request.FILES, instance=share_id, prefix='tools')
         if p_form.is_valid() and t_form.is_valid():
-            share_id.sharething_set.update(ready_for_save=True)
-            p_form.save()
-            t_form.save()
+            for form_p in p_form:
+                new_plant = form_p.save(commit=False)
+                new_plant.ready_for_save = True
+                new_plant.save()
+            for form_t in t_form:
+                new_tool = form_t.save(commit=False)
+                new_tool.ready_for_save = True
+                new_tool.save()
+
+            # share_id.sharething_set.update(ready_for_save=True)
+            # share_id.save()
+            # p_form.save()
+            # t_form.save()
 
         shared_things = share_id.sharething_set.values('name')
         requested_things = RequestThing.objects.filter(status='Requested').values('name').order_by('request_id__date')
@@ -326,7 +336,7 @@ def item_increment(request, id):
             if product.amount - 1 >= requested_value:
                 cart.add(product=get_product(id))
             else:
-                return render(request, 'no_amount.html', context={'amount': product.amount})
+                return render(request, 'no_amount.html', context={'amount': product.amount, 'name': product.name})
     return redirect("cart_detail")
 
 

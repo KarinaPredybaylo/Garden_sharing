@@ -47,14 +47,15 @@ def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password1')
+            form.save()
             user = authenticate(email=email, password=password)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = token_generator.make_token(user)
             name = form.cleaned_data.get('username')
             print(name)
+
             send_email.delay(domain, token, uid, name, email)
 
             return redirect('confirm_email')

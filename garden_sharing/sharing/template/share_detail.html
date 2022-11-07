@@ -16,7 +16,6 @@ align-content: center; background-attachment: scroll; height: auto">
                         {% for form_p in plant_form %}
                             <h1  style="font: italic small-caps bold 22px/2 cursive;"> Plants № - {{ forloop.counter }}</h1>
                                             {{ form_p|crispy}}
-                            <input type="submit" name="form_plant" value="Subscribe" />
                         {% endfor %}
                     {% for dict in plant_form.errors %}
     {% for error in dict.values %}

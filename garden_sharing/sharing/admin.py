@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Plant, Tool, \
-    Share, Request, TypePlant, Warehouse, CarePlant, Thing, RequestThing
+    Share, Request, TypePlant, Warehouse, CarePlant, Thing, RequestThing, Video
 
 
 @admin.register(Plant)
@@ -21,11 +21,11 @@ class SharingPlantAdmin(admin.ModelAdmin):
     search_fields = ('name__startswith',)
     fieldsets = (
         ('Common_info', {
-            'fields': ('name', 'status', 'amount', 'ready_for_save')
+            'fields': ('name', 'amount', 'ready_for_save')
         }),
         ('Details', {
             'fields': ('common_details', 'warehouse_id', 'type_id', 'fruit', 'photo',
-                       'video', 'share_id')
+                    'share_id')
         }),
     )
     type_plant_name.admin_order_field = 'type_id__name'
@@ -118,3 +118,8 @@ class WarehouseAdmin(admin.ModelAdmin):
 @admin.register(CarePlant)
 class SharingPlantAdmin(admin.ModelAdmin):
     list_display = ('lighting', 'transplant', 'temperature', 'watering', 'growing_difficulty')
+
+
+@admin.register(Video)
+class SharingPlantAdmin(admin.ModelAdmin):
+    list_display = ('video', 'plant')

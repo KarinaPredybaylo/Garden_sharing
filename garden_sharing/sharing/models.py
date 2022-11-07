@@ -67,9 +67,6 @@ class Warehouse(models.Model):
         else:
             return self.capacity - quantity_thing['amount__sum']
 
-        # def occupied_place(self):
-        #     self.objects.aggregate(common_number=)
-
 
 class Thing(models.Model):
     class Meta:
@@ -118,15 +115,13 @@ class TypePlant(models.Model):
 class Plant(ShareThing):
     common_details = models.CharField(max_length=200)
     photo = models.ImageField(upload_to='images', blank=True)
-    video = models.FileField(upload_to='videos_uploaded', blank=True,
-                             validators=[
-                                 FileExtensionValidator(allowed_extensions=['MOV', 'avi', 'mp4', 'webm', 'mkv'])])
     type_id = models.ForeignKey(TypePlant, on_delete=models.CASCADE, null=True)
     fruit = models.CharField(max_length=20,
                              choices=[('Fruit', 'Fruit'), ('Not Fruit', 'Not Fruit')], default='Not Fruit'
                              )
     PLACE = [('Garden', 'Garden'),
              ('Room', 'Room'),
+
              ('Garden and room', 'Garden and room')]
     place_of_growth = models.CharField(choices=PLACE, max_length=20, default='Garden')
 
@@ -134,9 +129,18 @@ class Plant(ShareThing):
         return reverse('plants_update', args=[str(self.id)])
 
 
+class Video(models.Model):
+    video = models.FileField(upload_to='videos_uploaded', blank=True, max_length=200,
+                             validators=[
+                                 FileExtensionValidator(allowed_extensions=['MOV', 'avi', 'mp4', 'webm', 'mkv'])])
+    frames = models.FloatField(null=True)
+    rate = models.FloatField(null=True)
+
+    plant = models.OneToOneField(Plant, on_delete=models.SET_NULL, blank=True, null=True)
+
+
 class CarePlant(models.Model):
     lighting = models.CharField(max_length=20)
-    # lightin = models.CharField(max_length=20)
     watering = models.CharField(max_length=20)
     transplant = models.CharField(max_length=40)
     temperature = models.CharField(max_length=20)
@@ -161,19 +165,6 @@ models.signals.post_save.connect(receiver=create_care_description, sender=Plant)
 class Tool(ShareThing):
     common_details = models.CharField(max_length=200)
     photo = models.ImageField(upload_to='images', null=True)
-
-
-# @receiver(post_save, sender=Tool)
-# def stocked_warehouse(sender, instance, **kwargs):
-#     actual_amount = sender.objects.filter(status='Available',
-#                                           warehouse_id=instance.warehouse_id).aggregate(models.Sum('amount'))
-#     print(actual_amount['amount__sum'])
-#     instance.warehouse_id.tool_count = actual_amount['amount__sum']
-#     instance.warehouse_id.save()
-
-
-# models.signals.post_save.connect(receiver=stocked_warehouse, sender=Tool)
-# models.signals.post_save.connect(receiver=stocked_warehouse, sender=Plant)
 
 
 @receiver(post_save, sender=Plant)

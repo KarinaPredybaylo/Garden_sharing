@@ -1,19 +1,19 @@
 import os
 from celery import Celery
+from celery.schedules import crontab
 from django.conf import settings
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'garden_sharing.settings')
 app = Celery('garden_sharing')
-app.config_from_object('django.conf:settings')
+app.config_from_object(settings, namespace='CELERY')
 app.conf.beat_schedule = {
-    'add-every-30-seconds': {
-        'task': 'tasks.add',
-        'schedule': 5.0,
-        'args': (16, 16)
+    'generate_sound-every-day': {
+        'task': 'video_validator_api.tasks.generate_tone',
+        'schedule': crontab(minute=10, hour=7)
+        # 'args': '..'
     },
 }
 
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
-
 
 @app.task(bind=True)
 def debug_task(self):

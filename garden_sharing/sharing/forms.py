@@ -8,6 +8,7 @@ class WarehouseForm(forms.Form):
     city = forms.ChoiceField(choices=type_cities)
 
 
+
 class CarePlantForm(forms.ModelForm):
     class Meta:
         model = CarePlant

@@ -10,6 +10,7 @@
                 <div class="container_p" style="overflow:hidden; height: 100%; white-space:nowrap">
                     <div class="container_image" style=" width: 40%; display:block;float:left">
                         <img class="card-img-top" src='{{plant.photo.url}}' alt="" style="width: 100%;height: auto;">
+
                     </div>
                     <div class="container_o" style="font-family: Courier,monospace; width: 55%;float:left;height:100%; white-space:normal; margin: 10px">
                         <div class="info" style="width: 100%; text-align: center;height: 20%">
@@ -17,6 +18,11 @@
                         </div>
 
                         <div class="details" style="width: 100%;height: 80%">
+
+                        <video width="320" height="240" controls>
+            {% load static %}
+                            <source src='{{plant.video.video.url}}' alt="" >
+          </video>
                             <h6 style=" margin-left: 10px;">{{ plant.common_details }}</h6></div>
                         <h5 style="margin-left: 30px; margin-top: 10px;text-decoration: underline">Care description</h5>
                         <ul>

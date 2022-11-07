@@ -5,12 +5,12 @@
 align-content: center">
       <div class="p-4 p-md-5 mb-4 rounded text-bg-dark" style="background-color: #c2d0cb;width: 60%; margin-left: 20%;margin-top: 150px;">
     <main class="px-3" style="width: 80%;margin-left: 10%;">
-         {% for key,value in request.session.cart.items %}
-<h1 class="display-4 fst-italic" style="font-style: italic;text-align: center">Sorry, the remaining quantity of good -  {{ value.name }} in stock
-    {{ amount}} pcs. Please,<a href="{% url 'cart_detail'%}">return to your shopping cart</a>
+<h5  style="font-family: Courier,monospace;text-align: center">Sorry, the remaining quantity  in stock  of good  {{name }} - {{ amount}} pcs.
+
+    Please,<a href="{% url 'cart_detail'%}">return to your shopping cart</a>
     <a href="{% url 'request'%}">You can also leave a request for this item in a larger quantity</a>
-</h1>
-        {% endfor %}
+</h5>
+
   </main>
       </div>
     </div>

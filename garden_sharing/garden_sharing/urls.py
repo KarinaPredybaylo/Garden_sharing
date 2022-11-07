@@ -24,6 +24,7 @@ urlpatterns = [
     path('sharing/', include('sharing.urls')),
     path('register/', include('registration.urls')),
     path('chat/', include('chat.urls')),
+    path('api/', include('video_validator_api.urls', namespace='api')),
     path('__debug__/', include('debug_toolbar.urls')),
 ]
 

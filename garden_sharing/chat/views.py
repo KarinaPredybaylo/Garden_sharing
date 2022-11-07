@@ -66,8 +66,3 @@ class ChatRoom(LoginRequiredMixin, View):
                    'messages': messages,
                    'sender_name': sender_name}
         return render(request, 'chat.html', context)
-
-# @login_required
-# def room(request, room_name):
-#     context = {'room_name': room_name}
-#     return render(request, "chat.html", context)

@@ -24,7 +24,6 @@ urlpatterns = [
     path('plant/<pk>', PlantDetailView.as_view(), name='plant_detail'),
     path('tool/<pk>', ToolDetailView.as_view(), name='tool_detail'),
     path('requestthing_list', views.request_list, name='missing_request_thing'),
-    # path('sharething_list', views.sharing_list, name='able_share_thing'),
     path('cart/add/<int:id>/', views.cart_add, name='cart_add'),
     path('cart/item_clear/<int:id>/', views.item_clear, name='item_clear'),
     path('cart/item_increment/<int:id>/', views.item_increment, name='item_increment'),
