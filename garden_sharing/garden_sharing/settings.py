@@ -53,9 +53,12 @@ INSTALLED_APPS = [
     'cart',
     'chat',
     'debug_toolbar',
-    'video_validator_api'
+    'video_validator_api',
+    'notifications'
 
 ]
+
+DJANGO_NOTIFICATIONS_CONFIG = {'USE_JSONFIELD': True}
 
 ASGI_APPLICATION = "garden_sharing.asgi.application"
 CHANNEL_LAYERS = {
@@ -197,7 +200,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, '/sharing/static'), ]
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'sharing/static'),
 
 AUTH_USER_MODEL = 'registration.User'
 MEDIA_URL = '/media/'

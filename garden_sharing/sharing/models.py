@@ -149,7 +149,7 @@ class CarePlant(models.Model):
                           ('High', 'requires care 1 time in 2-3 weeks'),
                           ]
     growing_difficulty = models.CharField(max_length=100, choices=GROWING_DIFFICULTY,
-                                          default='requires constant monitoring')
+                                          default='Low')
     plant = models.OneToOneField(Plant, on_delete=models.CASCADE, blank=True, null=True)
 
 

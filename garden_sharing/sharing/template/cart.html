@@ -2,133 +2,68 @@
 {% load crispy_forms_filters %}
 {% load static %}
 {% block content %}
-    <div class='hero' style="background-image: url('https://images.pexels.com/photos/6843669/pexels-photo-6843669.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');position: absolute;
-align-content: center; background-attachment: scroll;">
-        <div style="background-color: #eeeeee;position:relative;width: 80%; margin-top: 200px;margin-left: 10%;border-radius: inherit">
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-                <div class="box-element">
-            <a href="/sharing/" class="btn btn-outline-dark">&#x2190 Return  to main</a>
+    <div class='hero' style="background-image: url('https://images.pexels.com/photos/1856422/pexels-photo-1856422.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+ background-attachment: scroll;">
+        <div class='hero_2'>
+            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+            <div class="box-element">
+                <a href="/sharing/" class="btn btn-outline-dark">&#x2190 Return  to main</a>
+            </div>
+        <div class="container bootdey" style="width: 70%; margin-left: 25%">
+            <div class="row bootstrap snippets">
+                <div class="col-lg-9 col-md-9 col-sm-12">
+                    <div class="col-lg-12 col-sm-12 hero-feature">
+                        <div class="table-responsive">
+                            <table class="table table-bordered tbl-cart">
+                                <thead>
+                                    <tr>
+                                    <td class="hidden-xs">Image</td>
+                                    <td>Product Name</td>
+                                    <td class="td-qty">Amount</td>
+                                    <td>Remove</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        {% for key,value in request.session.cart.items %}
+                                            <td class="hidden-xs"><img src="{{value.photo}}" alt="Age Of Wisdom Tan Graphic Tee" title="" width="47" height="47"></td>
+                                            <td><p>{{value.name}}</p></td>
+                                            <td>
+                                                <div class="input-group bootstrap-touchspin"><a href="{% url 'item_decrement' value.product_id %} {% if disabled %} disabled {% endif %}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
+                                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"></path>
+                                                    </svg></a>
+                                                    <p>{{value.amount}}</p>
+                                                    <a href="{% url 'item_increment' value.product_id %}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
+                                                        <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"></path>
+                                                    </svg></a>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="{% url 'item_clear' value.product_id%}" class="remove_cart" rel="2">
+                                                <i class="fa fa-trash-o"></i></a>
+                                            </td>
+                                        {% endfor %}
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="btn-group btns-cart">
+                            <h5>Total amount of items: <strong>{{request.session.cart|length}}</strong></h5></div><div>
+                            <form action="{% url 'checkout' %}" method="POST" enctype="multipart/form-data" style="margin-top: 20px">
+                                {% csrf_token %}
+                                <label for="address">Enter address<input type="text" name="address" id="address" class="form-control"></label>
+                                <label for="phone">Enter phone<input type="text" name="phone" id="phone" class="form-control"></label>
+                                <input type="submit" name='checkout' onclick="location.href='{% url 'checkout' %}'" value="Checkout"></form>
+                                <a href="{% url 'orders' %}" class="nav-link active">My orders</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-<div class="container bootdey" style="width: 70%; margin-left: 25%">
-<div class="row bootstrap snippets">
-
-<!-- Cart -->
-<div class="col-lg-9 col-md-9 col-sm-12">
-<div class="col-lg-12 col-sm-12 hero-feature">
-<div class="table-responsive">
-<table class="table table-bordered tbl-cart">
-<thead>
-<tr>
-<td class="hidden-xs">Image</td>
-<td>Product Name</td>
-<td class="td-qty">Amount</td>
-<td>Remove</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-        {% for key,value in request.session.cart.items %}
-<td class="hidden-xs">
-<a href="#">
- <img src="{{value.photo}}" alt="Age Of Wisdom Tan Graphic Tee" title="" width="47" height="47">
-</a>
-</td>
-<td><p>{{value.name}}</p>
-</td>
-<td>
-<div class="input-group bootstrap-touchspin"><a href="{% url 'item_decrement' value.product_id %} {% if disabled %} disabled {% endif %}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
-                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"></path>
-                        </svg></a>
-<p>{{value.amount}}</p>
-{#    <input type="text" name="" value="{{value.amount}}" class="input-qty form-control text-center" style="display: block;">#}
- <a href="{% url 'item_increment' value.product_id %}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
-                                <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"></path>
-                            </svg></a>
-
-</div>
-</td>
-<td class="text-center">
-<a href="{% url 'item_clear' value.product_id%}" class="remove_cart" rel="2">
-<i class="fa fa-trash-o"></i>
-</a>
-</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
-</div>
-<div class="btn-group btns-cart">
-    <h5>Total amount of items: <strong>{{request.session.cart|length}}</strong></h5></div><div>
-    <form action="{% url 'checkout' %}" method="POST" enctype="multipart/form-data" style="margin-top: 20px">
-                    {% csrf_token %}
-    <label for="address">Enter address
-                        <input type="text" name="address" id="address" class="form-control">
-                    </label>
-                    <label for="phone">Enter phone
-                        <input type="text" name="phone" id="phone" class="form-control">
-                    </label>
- <input type="submit" name='checkout' onclick="location.href='{% url 'checkout' %}'" value="Checkout"></form>
-    <a href="{% url 'orders' %}" class="nav-link active">My orders</a>
-{#<button type="button" class="btn btn-primary">Checkout <i class="fa fa-arrow-circle-right"></i></button>#}
-</div>
-</div>
-</div>
-<!-- End Cart -->
-</div>
-</div>        </div>
-    <div class="col-lg-12">
-
-
-
-{#Cart Detail:#}
-{##}
-{#{% for key,value in request.session.cart.items %}#}
-{#{{value.name}} {{value.amount}}#}
-{#    {%  if value.photo %}#}
-{#         <img src='{{value.photo}}'  class="card-img-top" alt=''>#}
-{#{% endif %}#}
-{#{% endfor %}#}
-{#           <div class="container-fluid row">#}
-{#    <div class="col-lg-12">#}
-{#        <div class="box-element">#}
-{#            <a href="/" class="btn btn-outline-dark">&#x2190 Continue Choose items</a>#}
-{#            <br><br>#}
-{#            <table class="table">#}
-{#                <tr>#}
-{#                    <th>#}
-{#                        <h5>Items: <strong>{{order.amount_cart_items}}</strong></h5>#}
-{#                    </th>#}
-{##}
-{#                    <th><a href="/checkout/" class="btn btn-success" style="float: right; margin: 5px;">Checkout</a>#}
-{#                    </th>#}
-{#                </tr>#}
-{#            </table>#}
-{#        </div>#}
-{#<br>#}
-{#        <div class="box-element">#}
-{#            <div class="cart-row">#}
-{#                <div style="flex: 2;"><strong>Image</strong></div>#}
-{#                <div style="flex: 2;"><strong>Item</strong></div>#}
-{#                <div style="flex: 1;"><strong>Quantity</strong></div>#}
-{#            </div>#}
-{#        {% for item in items %}#}
-{#            <div class="cart-row">#}
-{#                <div style="flex: 2;"><img class="row-image" src="{{item.product.photo.url}}" alt=""></div>#}
-{#                <div style="flex: 2;">{{item.product.name}}</div>#}
-{#                <div style="flex: 1;">#}
-{#                <p class="quantity">{{item.amount}}</p>#}
-{#                <div class="quantity">#}
-{#                    <img data-product="{{item.product.id}}" data-action="add" src="{% static 'up-arrow.png' %}" class="chg-quantity update-cart" alt="">#}
-{#                    <img data-product="{{item.product.id}}" data-action="remove" src="{% static 'down-arrow.png' %}" class="chg-quantity update-cart" alt="">#}
-{#                </div>#}
-{#                </div>#}
-{#            </div>#}
-{#            {% endfor %}#}
-{#        </div>#}
-{#    </div>#}
-{#</div>#}
-
-    </div>
+        </div>
     </div>
 {% endblock %}

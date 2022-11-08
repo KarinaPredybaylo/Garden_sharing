@@ -1,51 +1,47 @@
 {% extends 'base.html' %}
-{% load cart %}
 {% load crispy_forms_filters %}
 {% load static %}
 {% block content %}
     <div class='hero' style="background-image: url('https://images.pexels.com/photos/6843669/pexels-photo-6843669.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
-    position: absolute; align-content: center; background-attachment: scroll;height: auto;">
-        <div class="list" id="featured-3" style="width: auto; margin-top: 100px; margin-left: 5%;display: flex;
-        flex-wrap: wrap; ">
+background-attachment: scroll;height: auto;">
+        <div class="list" id="featured-3" style="width: auto; margin-top: 100px; margin-left: 5%;display: flex;flex-wrap: wrap; ">
             <div class="row" style="width: 15%; margin-top: 50px;margin-right: 5%; height: auto">
                 <a class="list-group list-group-flush">
                 <a href="/sharing/plant_list" class="list-group-item list-group-item-action btn btn-outline-success">All Plants</a>
-                <h5 style="font-family: Courier,monospace; margin-left: 10px; margin-top: 10px">Category:</h5>
-                {% for type in types %}
-				    <a href="/sharing/plant_list?type={{type.id}}"
-					class="list-group-item list-group-item-action btn btn-outline-success ">{{type.name}}</a>
-				{% endfor %}
-                                <h5 style="font-family: Courier,monospace; margin-left: 10px;margin-top: 10px">Fruit:</h5>
+                <h5 style="margin-left: 10px; margin-top: 10px">Category:</h5>
+                    {% for type in types %}
+                        <a href="/sharing/plant_list?type={{type.id}}"
+                        class="list-group-item list-group-item-action btn btn-outline-success ">{{type.name}}</a>
+                    {% endfor %}
+                <h5 style="margin-left: 10px;margin-top: 10px">Fruit:</h5>
                     {% for  v in fruit %}
-                            <a href="/sharing/plant_list?fruit={{v}}"
-                               class="list-group-item list-group-item-action btn btn-outline-success ">{{v}}</a>
+                        <a href="/sharing/plant_list?fruit={{v}}" class="list-group-item list-group-item-action btn btn-outline-success ">{{v}}</a>
                     {% endfor %}
-                <h5 style="font-family: Courier,monospace; margin-left: 10px;margin-top: 10px">Place:</h5>
+                <h5 style="margin-left: 10px;margin-top: 10px">Place:</h5>
                     {% for  v in places %}
-                            <a href="/sharing/plant_list?place={{v}}"
-                               class="list-group-item list-group-item-action btn btn-outline-success ">{{v}}</a>
+                            <a href="/sharing/plant_list?place={{v}}" class="list-group-item list-group-item-action btn btn-outline-success ">{{v}}</a>
                     {% endfor %}
-                <h5 style="font-family: Courier,monospace; margin-left: 10px;margin-top: 10px">Degree:</h5>
+                <h5 style=" margin-left: 10px;margin-top: 10px">Degree:</h5>
                     {% for  v in degree %}
-                            <a href="/sharing/plant_list?degree={{v}}"
-                               class="list-group-item list-group-item-action btn btn-outline-success ">{{v}}</a>
+                            <a href="/sharing/plant_list?degree={{v}}" class="list-group-item list-group-item-action btn btn-outline-success ">{{v}}</a>
                     {% endfor %}
-                </a> </div>
+                </a>
+            </div>
             <div class="col-lg-9 mx-auto">
 			    <div class="row mx-auto" style="margin-top: 90px">
-{#            <div class="row g-4 py-5 row-cols-1 row-cols-lg-3" style="width:80%;display: flex; flex-wrap: wrap; position:relative;">#}
                  {% for thing in things %}
                       <div class="card mx-auto mb-3" style=" width: 15rem;">
                           <img class="card-img-top" src='{{thing.photo.url}}'  alt=''>
                           <div class="card-body" style="font-size: 1.3rem;text-align: center;height: auto">
-                            <a href="{% url 'plant_detail' thing.id%}" style="color: black">{{ thing.name}}
-                              {#                   <a href="/thing/{{ thing.id }}">#}</a></div>
-                      <div class="card-footer p-0 no-gutters">
+                            <a href="{% url 'plant_detail' thing.id%}" style="color: black">{{ thing.name}}</a>
+                          </div>
+                          <div class="card-footer p-0 no-gutters">
                               <a href="{% url 'cart_add' thing.id %}">Add To Cart</a>
-
-					</div>
+                          </div>
                       </div>
                  {% endfor %}
-                </div></div>
-        </div></div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

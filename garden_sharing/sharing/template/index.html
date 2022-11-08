@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
 {% load crispy_forms_filters %}
 {% load static %}
-
 {% block content %}
 
 
-    <div class="hero" style="background-image: url('https://blog.floweradvisor.com/wp-content/uploads/2022/02/blank-picture-frame-by-houseplant-corner-parquet-floor.jpg');position: absolute;">
+    <div class="hero" style="background-image: url('https://blog.floweradvisor.com/wp-content/uploads/2022/02/blank-picture-frame-by-houseplant-corner-parquet-floor.jpg');">
     <div class="px-4 py-5 my-5 text-center" id="featured-3" style="height: 60%;">
         <div style="display: flex;flex-direction:column;width:50%;margin-left: 25%;margin-top: 350px;">
             {% if user.is_authenticated %}

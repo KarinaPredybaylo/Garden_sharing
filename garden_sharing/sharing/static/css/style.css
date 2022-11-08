@@ -1,3 +1,5 @@
+
+
 body {
   font-family: "Quicksand", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   background-color: #fff;
@@ -22,13 +24,18 @@ body {
     visibility: visible; }
 
 p {
-  color: #b3b3b3;
-  font-weight: 300; }
+  color: #33725a;
+  font-weight: 300;
+  font-family: Courier,monospace;}
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-  font-family: "Quicksand", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; }
+  font-family: Courier,monospace;
+}
 
+
+
+.word{}
 a {
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;
@@ -42,7 +49,20 @@ a {
   width: 100%;
   background-size: cover;
   background-position: center center;
-  background-repeat: no-repeat; }
+  background-repeat: no-repeat;
+  align-content: center;}
+
+.hero_2 {
+  position:relative;
+  height: auto;
+  width: 70%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-color: #eeeeee;
+  margin-top: 200px;
+  margin-left: 15%;
+  border-radius: inherit}
 
 .site-navbar {
   margin-bottom: 0px;

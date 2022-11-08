@@ -3,45 +3,33 @@
 {% load static %}
 
 {% block content %}
-            <div class='hero' style="background-image: url('https://images.pexels.com/photos/6843669/pexels-photo-6843669.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');position: absolute;
-align-content: center; background-attachment: scroll; height: auto">
-    <div style="background-color: #eeeeee;position:relative;width: 60%; margin-top: 200px;margin-left: 20%;border-radius: inherit">
-{#            <div class="card-body">#}
+    <div class='hero' style="background-image: url('https://images.pexels.com/photos/6843669/pexels-photo-6843669.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+background-attachment: scroll;">
+        <div class='hero_2'>
             <form method="POST" style="width: 100%;" action="{% url 'share_success' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="container" style="overflow:hidden">
-                <div class="box" style="white-space:nowrap">
-                    <div style="width:45%;display:block; float:left; border:1px solid black; margin: 7px;margin-left: 5%;"><h1 style="font: small-caps bold 24px/1 sans-serif;text-align: center">Number of plants</h1>
-                       {{ plant_form.management_form }}
-                        {% for form_p in plant_form %}
-                            <h1  style="font: italic small-caps bold 22px/2 cursive;"> Plants № - {{ forloop.counter }}</h1>
-                                            {{ form_p|crispy}}
-                        {% endfor %}
-                    {% for dict in plant_form.errors %}
-    {% for error in dict.values %}
-        {{ error }}
-    {% endfor %}
-{% endfor %}
-                                            </div>
-                <div style="width:45%;display:block;border:1px solid black; float:left; margin: 7px">
-                    <h1 style="font: small-caps bold 24px/1 sans-serif;">Number of tools</h1>
-                                       {{ tool_form.management_form }}
-                    {% for form_t in tool_form %}
-                            <h1  style="font: italic small-caps bold 22px/2 cursive;"> Tool № - {{ forloop.counter }}</h1>
-                                            {{ form_t|crispy }}
-                        {% endfor %}
-                    {% for dict in tool_form.errors %}
-                        {% for error in dict.values %}
-                            {{ error }}
-                        {% endfor %}
-                    {% endfor %}
+                    <div class="box" style="white-space:nowrap">
+                        <div style="width:45%;display:block; float:left; border:1px solid black; margin: 7px;margin-left: 5%;"><h3>Number of plants</h3>
+                            {{ plant_form.management_form }}
+                            {% for form_p in plant_form %}
+                                <h3  style="font: italic small-caps bold 20px/2 cursive;"> Plants № - {{ forloop.counter }}</h3>
+                                {{ form_p|crispy}}
+                            {% endfor %}
+                        </div>
+                        <div style="width:45%;display:block;border:1px solid black; float:left; margin: 7px"><h3>Number of tools</h3>
+                            {{ tool_form.management_form }}
+                            {% for form_t in tool_form %}
+                                    <h3  style="font: italic small-caps bold 20px/2 cursive;"> Tool № - {{ forloop.counter }}</h3>
+                                    {{ form_t|crispy }}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
-                                    </div>
                 <div>
                 <button type="submit" class="btn btn-primary" style="width: 20rem;" >Share</button>
-</div>
+                </div>
             </form>
-            </div>
+        </div>
     </div>
 {% endblock %}

@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+import notifications.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +26,7 @@ urlpatterns = [
     path('register/', include('registration.urls')),
     path('chat/', include('chat.urls')),
     path('api/', include('video_validator_api.urls', namespace='api')),
+    path('inbox/notifications/', include(notifications.urls, namespace='notifications')),
     path('__debug__/', include('debug_toolbar.urls')),
 ]
 

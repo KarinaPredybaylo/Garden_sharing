@@ -22,7 +22,7 @@ CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 
 def set_city_session(request):
-    if request.session['city'] is None:
+    if not request.session.get('city'):
         request.session['city'] = request.POST['city']
     print(request.session['city'])
     return redirect(reverse('home'))
@@ -132,11 +132,6 @@ def share_update(request, pk):
                 new_tool.ready_for_save = True
                 new_tool.save()
 
-            # share_id.sharething_set.update(ready_for_save=True)
-            # share_id.save()
-            # p_form.save()
-            # t_form.save()
-
         shared_things = share_id.sharething_set.values('name')
         requested_things = RequestThing.objects.filter(status='Requested').values('name').order_by('request_id__date')
         overlap = shared_things.intersection(requested_things)
@@ -201,14 +196,6 @@ def sharing_plants(request):
                    'places': place_value,
                    'degree': degree_value,
                    }
-
-        # data = cartData(request)
-        # items = data['items']
-        # order = data['order']
-        # cartItems = data['cartItems']
-        #
-        # products = Product.objects.all()
-        # return render(request, "index.html", {'products': products, 'cartItems': cartItems})
 
         return render(request, 'share_plant_list.html', context)
 
@@ -365,7 +352,7 @@ def orders(request):
         things = RequestThing.objects.filter(request_id__user=request.user)
         requested_items = things.filter(status='Requested')
         shipped_items = things.filter(status='Shipped')
-        return render(request, 'users_requests.html', context={'requested_items': requested_items,
+        return render(request, 'users_orders.html', context={'requested_items': requested_items,
                                                                'shipped_items': shipped_items})
 
 
@@ -396,4 +383,4 @@ def checkout(request):
                 request_thing.save()
 
     request.session['cart'] = {}
-    return render(request, 'thank_you.html', context={'request_id': request_id.id})
+    return render(request, 'order_success.html', context={'request_id': request_id.id})
