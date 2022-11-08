@@ -5,10 +5,10 @@
     <div class='hero' style="background-image: url('https://images.pexels.com/photos/6843669/pexels-photo-6843669.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');position: absolute;
 align-content: center; background-attachment: scroll;">
 
-          <div class="p-4 p-md-5 mb-4 rounded text-bg-dark" style="background-color: #c2d0cb;width: 60%; margin-left: 20%;margin-top: 150px;">
+          <div class="hero_2">
     <main class="px-3" style="width: 80%;margin-left: 10%;">
     {% if not perms.chat.message_manage %}
-        <h5 class="display-4 fst-italic" style="font-family: Courier,monospace; text-align: center">please write to us if you have any questions, we will answer you as soon as possible</h5>
+        <h4>please write to us if you have any questions, we will answer you as soon as possible</h4>
         <form method="POST">
     {% csrf_token %}
             <button class="btn btn-outline-dark" type="submit" style="width: 32%;margin-left: 34%">Ok! Continue</button></form>
