@@ -2,9 +2,14 @@ import registration.models
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Permission
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.crypto import get_random_string
 from django.views import View
+from notifications import settings
+from notifications.models import Notification
+from notifications.utils import slug2id
+
 from .models import Room, Message
 
 perm = Permission.objects.get(codename='process_message')
@@ -66,3 +71,23 @@ class ChatRoom(LoginRequiredMixin, View):
                    'messages': messages,
                    'sender_name': sender_name}
         return render(request, 'chat.html', context)
+
+
+def delete(request, slug=None):
+    notification_id = slug2id(slug)
+
+    notification = get_object_or_404(
+        Notification, recipient=request.user, id=notification_id)
+
+    if settings.get_config()['SOFT_DELETE']:
+        notification.deleted = True
+        notification.save()
+    else:
+        notification.delete()
+
+    _next = request.GET.get('next')
+
+    if _next:
+        return redirect(_next)
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

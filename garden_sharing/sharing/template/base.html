@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 {% load static %}
       {% load notifications_tags %}
-          {% register_notify_callbacks callbacks='fill_notification_list,fill_notification_badge' %}
+      {% register_notify_callbacks callbacks='fill_notification_list,fill_notification_badge' %}
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,600,700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href={%  static 'fonts/icomoon/style.css'%}>
@@ -63,25 +63,16 @@
 		  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
 	      	{% for notification in  user.notifications.unread %}
 	      		<div>
-	      		Message from <b>{{ notification.actor }}</b>
-
+	      		{{ notification.verb }}
+                    <a href="{% url 'notifications:mark_as_read' notification.slug %}"><i class="icon-close"></i></a>
+                  <button class="dropdown-item" type="button">{{ notification.mark }}</button>
 				</div>
 				<div class="dropdown-divider"></div>
 			{% endfor %}
+          <a href="{% url 'notifications:mark_all_as_read' %}">Mark all as read</a>
 		  </div>
             </li>
       {% live_notify_list list_class="dropdown-menu" %}
-{#                <a href="#" class="dropdown-toggle" data-toggle="dropdown">#}
-{#                    Notifications {% live_notify_badge %}#}
-{#                    <span class="glyphicon glyphicon-user pull-right">#}
-{##}
-{#                    </span>#}
-{#                </a>#}
-{#                <ul class="dropdown-menu" id="notice-link">#}
-{#                  <a href="{% url 'notifications:unread' %}">#}
-{#                    {% live_notify_list %}</a>#}
-{#                </ul>#}
-
             <li style="width: 25px"></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'logout' %}"><b>   Log Out</b></a></li>

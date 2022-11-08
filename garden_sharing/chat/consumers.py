@@ -3,6 +3,7 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 import registration.models
 import chat.models
+from notifications.signals import notify
 
 
 class ChatConsumer(WebsocketConsumer):
@@ -30,6 +31,8 @@ class ChatConsumer(WebsocketConsumer):
         new_message = chat.models.Message.objects.create(message=message, sender_user=sender_user,
                                                          receiver_user=receiver_user)
         new_message.save()
+        notify.send(sender=sender_user, recipient=receiver_user,
+                    verb='You have new message from {}'.format(sender_user.username))
 
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
