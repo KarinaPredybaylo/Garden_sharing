@@ -1,5 +1,5 @@
 import time
-from tms.garden_test.pages.main_page import MainPage
+from Plants_share.garden_sharing.sharing.tests.pages.main_page import MainPage
 
 
 def test_open_login(driver):

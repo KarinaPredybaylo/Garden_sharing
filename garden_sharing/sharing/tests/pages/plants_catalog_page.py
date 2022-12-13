@@ -1,8 +1,8 @@
 import time
 
-from tms.garden_test.pages.base_page import BasePage
-from tms.garden_test.pages.plant_detail_page import PlantDetailPage
-from tms.garden_test.pages.plants_catalog_page_locators import PlantsCatalogPageLocators
+from Plants_share.garden_sharing.sharing.tests.pages.base_page import BasePage
+from Plants_share.garden_sharing.sharing.tests.pages.plant_detail_page import PlantDetailPage
+from Plants_share.garden_sharing.sharing.tests.pages.plants_catalog_page_locators import PlantsCatalogPageLocators
 
 
 class PlantsCatalogPage(BasePage):

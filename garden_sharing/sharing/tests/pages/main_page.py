@@ -1,9 +1,8 @@
 import time
-
-from tms.garden_test.pages.base_page import BasePage
-from tms.garden_test.pages.login_page import LoginPage
-from tms.garden_test.pages.main_page_locators import MainPageLocators
-from tms.garden_test.pages.plants_catalog_page import PlantsCatalogPage
+from Plants_share.garden_sharing.sharing.tests.pages.base_page import BasePage
+from Plants_share.garden_sharing.sharing.tests.pages.login_page import LoginPage
+from Plants_share.garden_sharing.sharing.tests.pages.main_page_locators import MainPageLocators
+from Plants_share.garden_sharing.sharing.tests.pages.plants_catalog_page import PlantsCatalogPage
 
 
 class MainPage(BasePage):

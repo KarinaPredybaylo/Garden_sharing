@@ -1,5 +1,5 @@
-from tms.garden_test.pages.base_page import BasePage
-from tms.garden_test.pages.plant_detail_page_locators import PlantsDetailPageLocators
+from Plants_share.garden_sharing.sharing.tests.pages.base_page import BasePage
+from Plants_share.garden_sharing.sharing.tests.pages.plant_detail_page_locators import PlantsDetailPageLocators
 
 
 class PlantDetailPage(BasePage):

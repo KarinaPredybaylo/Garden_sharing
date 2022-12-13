@@ -1,5 +1,5 @@
-from tms.garden_test.pages.base_page import BasePage
-from tms.garden_test.pages.login_page_locators import LoginPageLocators
+from Plants_share.garden_sharing.sharing.tests.pages.base_page import BasePage
+from Plants_share.garden_sharing.sharing.tests.pages.login_page_locators import LoginPageLocators
 
 
 class LoginPage(BasePage):
