@@ -30,10 +30,10 @@ background-attachment: scroll;height: auto;">
             <div class="col-lg-9 mx-auto">
 			    <div class="row mx-auto" style="margin-top: 90px">
                  {% for thing in things %}
-                      <div class="card mx-auto mb-3" style=" width: 15rem;">
-                          <img class="card-img-top" src='{{thing.photo.url}}'  alt=''>
+                      <div class="card mx-auto mb-3" name="item" style=" width: 15rem;">
+                          <img class="card-img-top" src='{{thing.photo.url}}' style width="100" height="230"  alt=''>
                           <div class="card-body" style="font-size: 1.3rem;text-align: center;height: auto">
-                            <a href="{% url 'plant_detail' thing.id%}" style="color: black">{{ thing.name}}</a>
+                            <a href="{% url 'plant_detail' thing.id%}"  name='plant_name' style="color: black">{{ thing.name}}</a>
                           </div>
                           <div class="card-footer p-0 no-gutters">
                               <a href="{% url 'cart_add' thing.id %}">Add To Cart</a>

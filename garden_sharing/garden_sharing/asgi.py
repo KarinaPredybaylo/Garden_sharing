@@ -9,7 +9,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'garden_sharing.settings')
 
 application = ProtocolTypeRouter({
     'http': get_asgi_application(),
-    "websocket":AllowedHostsOriginValidator( AuthMiddlewareStack(
+    "websocket":AllowedHostsOriginValidator(AuthMiddlewareStack(
         URLRouter(
             garden_sharing.routing.websocket_urlpatterns
         )

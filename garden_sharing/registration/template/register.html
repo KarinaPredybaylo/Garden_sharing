@@ -2,8 +2,7 @@
 {% load crispy_forms_filters %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class='hero' style="background-image: url('https://infopro54.ru/wp-content/uploads/2022/02/cveti.jpg');position: absolute;
-align-content: center">
+    <div class='hero' style="background-image: url('https://infopro54.ru/wp-content/uploads/2022/02/cveti.jpg');height: auto">
 <div style="background-color: #a5c4b9;position:relative;width: 70%; margin-top: 200px;margin-left: 15%;border-radius: inherit">
 
         <form method="POST" enctype="multipart/form-data" style="margin-left: 5%; width: 90%">
@@ -20,7 +19,7 @@ align-content: center">
 
 <div class="create" style="position: relative;width: 50%;text-align: center">
             <div class="primary" style="text-align: center">
-                <a href="{% url 'login' %}" class="action create primary"><span style="color: #203d32">
+                <a href="{% url 'login' %}" class="action create primary" name="login"><span style="color: #203d32">
 I already have an account</span></a>
 
         </div></div>

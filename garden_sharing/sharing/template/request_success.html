@@ -13,6 +13,7 @@
 				</li></ul>	</div>
             {% endfor %}
         </h5>
+    {% if new_things %}
     <h5>
     Request No. {{request_id.id}}  has been generated for these products:
          {% for item in new_things %}
@@ -21,6 +22,7 @@
       <li> {{ item.name }}</li>
        </ul> </div>{% endfor %}
     </h5>
+    {% endif %}
     <p style="text-align: center; margin-top: 20px;">
     <a href="/sharing/">Return main</a>
     </p>

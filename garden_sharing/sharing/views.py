@@ -24,7 +24,6 @@ CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 def set_city_session(request):
     if not request.session.get('city'):
         request.session['city'] = request.POST['city']
-    print(request.session['city'])
     return redirect(reverse('home'))
 
 
@@ -100,7 +99,7 @@ def share_success(request, **kwargs):
 @permission_required('sharing.request_manage', raise_exception=True)
 def request_list(request):
     if request.method == 'GET':
-        request_objects = Request.objects.filter(requestthing__status='Booked').distinct().order_by('date')
+        request_objects = Request.objects.filter(requestthing__status='Booked', address__isnull=False).distinct().order_by('date')
         print(request_objects)
         context = {'request_list': request_objects}
         return render(request, 'request_list_update.html', context)
@@ -155,7 +154,6 @@ def share_update(request, pk):
     return render(request, 'share_update.html', context)
 
 
-@cache_page(CACHE_TTL)
 def sharing_things(request):
     if request.method == 'GET':
         tool_objects = Tool.objects.filter(ready_for_save=True)
@@ -163,8 +161,6 @@ def sharing_things(request):
         return render(request, 'share_tool_list.html', context)
 
 
-@cache_control(public=True)
-@cache_page(CACHE_TTL)
 def sharing_plants(request):
     if request.method == 'GET':
         plants_objects = Plant.objects.filter(ready_for_save=True, amount__gt=0)
@@ -362,14 +358,11 @@ def checkout(request):
     ids = []
     for k in request.session['cart'].keys():
         ids.append(k)
-    address = request.POST.get('address')
-    phone = request.POST.get('phone')
-    print(phone, address)
     items = ShareThing.objects.filter(id__in=ids)
     request_id = Request.objects.create(user=request.user,
                                         thing_amount=len(request.session['cart']), city=request.session['city'],
-                                        address=address,
-                                        phone=phone)
+                                        address=request.POST.get('address'),
+                                        phone=request.POST.get('phone'))
     for item in items:
         for key, value in request.session['cart'].items():
             if key == str(item.id):

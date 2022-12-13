@@ -25,7 +25,7 @@
           <span class="icon-close2 js-menu-toggle"></span>
         </div>
       </div>
-      <div class="site-mobile-menu-body"></div>
+{#      <div class="site-mobile-menu-body"></div>#}
     </div>
 
     <header class="site-navbar mt-3">
@@ -81,7 +81,7 @@
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'logout' %}"><b>   Log Out</b></a></li>
                 {% else %}
-                    <li><a href="{% url 'register' %}"><b>   Log In</b></a></li>
+                    <li><a href="{% url 'login' %}" name="login"><b>   Log In</b></a></li>
                 {% endif %}
             </ul>
           </nav>
@@ -89,7 +89,7 @@
           <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
             <div class="ml-auto">
              {% if user.is_authenticated == False %}
-                  <li class="d-lg-none" style="color: #0b2e13;"><a href="{% url 'profile' %}" style="color: #0b2e13">Log In</a></li>
+                  <li class="d-lg-none" style="color: #0b2e13;"><a href="{% url 'profile' %}" style="color: #0b2e13" name="login_2">Log In</a></li>
                 {% else %}
                  <li class="d-lg-none" style="color: #0b2e13"><a href="{% url 'logout' %}" style="color: #0b2e13">Log Out</a></li>
                 {% endif %} </div>

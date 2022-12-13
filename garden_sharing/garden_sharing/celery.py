@@ -8,7 +8,7 @@ app.config_from_object(settings, namespace='CELERY')
 app.conf.beat_schedule = {
     'generate_sound-every-day': {
         'task': 'video_validator_api.tasks.generate_tone',
-        'schedule': crontab(minute=10, hour=7)
+        'schedule': crontab(minute=0, hour=0)
         # 'args': '..'
     },
 }
